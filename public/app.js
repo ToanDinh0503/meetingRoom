@@ -1,4 +1,4 @@
-const socket = io('ws://localhost:3500')
+const socket = io(process.env.NODE_ENV === "production" ? window.location.origin : 'ws://localhost:3500');
 
 const msgInput = document.querySelector('#message')
 const nameInput = document.querySelector('#name')
