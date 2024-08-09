@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat App</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="style.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"
         integrity="sha512-Xm9qbB6Pu06k3PUwPj785dyTl6oHxgsv9nHp7ej7nCpAqGZT3OZpsELuCYX05DdonFpTlBpXMOxjavIAIUwr0w=="
@@ -13,25 +14,49 @@
 </head>
 
 <body>
-    <main>
-        <form class="form-join">
-            <input type="text" id="name" maxlength="8" placeholder="Your name" size="5" required>
-            <input type="text" id="room" placeholder="Chat room" size="5" required>
-            <button id="join" type="submit">Join</button>
-        </form>
+    <main class="container-fluid h-100 p-3">
+        <div class="row h-100">
+            <!-- Camera Section -->
+            <div class="col-lg-6 d-flex flex-column">
+                <div class="camera-controls mb-3">
+                    <button id="toggle-camera" class="btn btn-primary w-100">Toggle Camera</button>
+                </div>
+                <div class="camera-view flex-grow-1">
+                    <div id="local-camera" class="camera-each-people mb-3">
+                        <video id="local-video" class="w-100 h-100" autoplay muted></video>
+                    </div>
+                    <div id="remote-cameras" class="camera-remote-view">
+                        <!-- Remote video streams or user names will be added here -->
+                    </div>
+                </div>
+            </div>
 
-        <ul class="chat-display"></ul>
+            <!-- Chat Section -->
+            <div class="col-lg-6 d-flex flex-column">
+                <form class="form-join mb-3">
+                    <div class="input-group">
+                        <input type="text" id="name" maxlength="8" class="form-control" placeholder="Your name" required>
+                        <input type="text" id="room" class="form-control" placeholder="Chat room" required>
+                        <button id="join" type="submit" class="btn btn-success">Join</button>
+                    </div>
+                </form>
+                
+                <ul class="chat-display flex-grow-1 mb-3"></ul>
 
-        <p class="user-list"></p>
+                <p class="user-list"></p>
 
-        <p class="room-list"></p>
+                <p class="room-list"></p>
 
-        <p class="activity"></p>
+                <p class="activity"></p>
 
-        <form class="form-msg">
-            <input type="text" id="message" placeholder="Your message" required>
-            <button type="submit">Send</button>
-        </form>
+                <form class="form-msg">
+                    <div class="input-group">
+                        <input type="text" id="message" class="form-control" placeholder="Your message" required>
+                        <button type="submit" class="btn btn-primary">Send</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </main>
 </body>
 

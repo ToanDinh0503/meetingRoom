@@ -113,6 +113,51 @@ io.on('connection', socket => {
     })
 })
 
+io.on('connection', socket => {
+    console.log(`User ${socket.id} connected`);
+
+    socket.on('enterRoom', ({ name, room }) => {
+        socket.join(room);
+        socket.data = { name, room };
+
+        io.to(room).emit('userList', {
+            users: getUsersInRoom(room)
+        });
+
+        io.emit('roomList', {
+            rooms: getAllActiveRooms()
+        });
+    });
+
+    socket.on('camera-on', ({ room }) => {
+        io.to(room).emit('remote-camera', {
+            userId: socket.id,
+            userName: socket.data.name,
+            stream: null // This should be the stream data if applicable
+        });
+    });
+
+    socket.on('toggle-camera', ({ room, enabled }) => {
+        if (!enabled) {
+            io.to(room).emit('camera-off', socket.id);
+        } else {
+            io.to(room).emit('remote-camera', {
+                userId: socket.id,
+                userName: socket.data.name,
+                stream: null // This should be the stream data if applicable
+            });
+        }
+    });
+
+    socket.on('disconnect', () => {
+        const { room } = socket.data;
+        io.to(room).emit('user-disconnect', socket.id);
+        console.log(`User ${socket.id} disconnected`);
+    });
+});
+
+
+
 function buildMsg(name, text) {
     return {
         name,
